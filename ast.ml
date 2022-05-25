@@ -1,54 +1,22 @@
-(* type automate =
-  | Var of char
-  | InputSymb of list * Var
-  | StackSymb of list * Var
-  | States of list * Var
-  | InitState of Var
-  | InitStack of Var
-  | Transitions of string
+type lettre = char
 
+type inputsymbols = Inputsymbols of lettre list
 
+type stacksymbols = Stacksymbols of lettre list
 
-let rec transition = function
-| Var x -> x
-| LPARENT of char??????????????
+type states = States of lettre list
 
+type initialstate = Initialstate of lettre
 
+type initialstack = Initialstack of lettre
 
-type expression =
-  | Var of string
-  | Or of expression * expression
-  | And of expression * expression
-  | Let of string * expression * expression
-  | Let_declaration of string * expression
-  | Let_list of expression list * expression
+type stack = Stack of lettre list
 
-let rec as_string = function
-  | Var x -> x
-  | True -> "true"
-  | False -> "false"
-  | Or (l, r) -> apply "\\/" l r
-  | And (l, r) -> apply "/\\" l r
-  | Let (x, e1, e2) -> apply_let x e1 e2
-  | Let_declaration (x, e) -> apply_let_declaration x e
-  | Let_list (l, r) -> apply_let_list l r
+type transitions = 
+  Transitions of (lettre * lettre * lettre * lettre * stack) list
 
-and apply op l r = 
-  "(" ^ as_string l ^ ") " ^ op ^ " (" ^ as_string r ^ ")"
+type declarations =
+  Declarations of inputsymbols * stacksymbols * states * initialstate * initialstack
 
-and apply_let variable expr1 expr2 =
-  "Let " ^ variable ^ " = " ^ as_string expr1 ^ " in " ^ as_string expr2
-
-and apply_let_declaration variable expr =
-  variable ^ " = " ^ as_string expr
-
-and apply_let_list l r =
-  "Let " ^ apply_list l ^ " in " ^ as_string r
-
-and apply_list l =
-  match l with 
-  | [] -> ""
-  | h::q ->
-    if q <> [] then as_string h ^ " and " ^ apply_list q
-    else as_string h
- *)
+type automate = 
+  Automate of declarations * transitions
