@@ -1,31 +1,32 @@
-(* type automate =
-  | Var of char
-  | InputSymb of list * Var
-  | StackSymb of list * Var
-  | States of list * Var
-  | InitState of Var
-  | InitStack of Var
-  | Transitions of string
+type lettre = char
 
+type inputsymbols = Inputsymbols of lettre list
 
+type stacksymbols = Stacksymbols of lettre list
 
-let rec transition = function
-| Var x -> x
-| LPARENT of char??????????????
+type states = States of lettre list
 
+type initialstate = Initialstate of lettre
 
+type initialstack = Initialstack of lettre
 
-type expression =
-  | Var of string
-  | Or of expression * expression
-  | And of expression * expression
-  | Let of string * expression * expression
-  | Let_declaration of string * expression
-  | Let_list of expression list * expression
+type stack = Stack of lettre list
 
+type transitions = 
+  Transitions of (lettre * lettre * lettre * lettre * stack) list
+
+type declarations =
+  Declarations of inputsymbols * stacksymbols * states * initialstate * initialstack
+
+type automate = 
+  Automate of declarations * transitions
+
+let as_string = function
+  | Automate (d,t) -> "HELLO"
+
+(* 
 let rec as_string = function
-  | Var x -> x
-  | True -> "true"
+  | Inputsymbols ()
   | False -> "false"
   | Or (l, r) -> apply "\\/" l r
   | And (l, r) -> apply "/\\" l r
@@ -50,5 +51,5 @@ and apply_list l =
   | [] -> ""
   | h::q ->
     if q <> [] then as_string h ^ " and " ^ apply_list q
-    else as_string h
- *)
+    else as_string h *)
+
