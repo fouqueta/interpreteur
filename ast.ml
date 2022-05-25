@@ -21,8 +21,35 @@ type declarations =
 type automate = 
   Automate of declarations * transitions
 
-let as_string = function
-  | Automate (d,t) -> "HELLO"
+  
+let rec as_string = function
+  | Inputsymbols l -> "inupts symbols: " ^ parcoursListe l
+  | Stacksymbols l -> "stack symbols: " ^ parcoursListe l
+  | States l -> "states: " ^ parcoursListe l
+  | Initialstate a -> "initial state: " ^ a
+  | Initialstack a -> "initial stack symbol:" ^ a
+  | Stack l -> "stack" ^ parcoursListe l 
+  | Transitions l -> "transitions" ^ parcoursListeTrans l
+  | Declarations (i,stck,st,initst,initstck) -> "declarations: " ^ as_string i ^ as_string stck ^ as_string initst ^ as_string initstck
+  | Automate (d,t) -> "automate: " ^ as_string d ^ as_string t
+
+
+and parcoursListe l =
+  match l with
+  | [] -> ""
+  | t::q ->   t ^  string ", " ^ parcoursListe q
+
+and parcoursListeTrans l =
+  match l with
+  | [] -> ""
+  | t::q -> "(" ^  t ^  string "," ^ parcoursListeTrans q ^ ")"
+
+(*)
+ and parcoursListeTrans l =
+  match l with
+  | [] -> ""
+  | t::q -> "(" ^ string t ; string "," ; parcoursListeTrans q ^ ")" 
+ *)
 
 (* 
 let rec as_string = function
