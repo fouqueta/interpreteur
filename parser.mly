@@ -43,8 +43,8 @@ lettre_ou_vide:
 | s = LETTRE { (print_string "lettre_ou_vide2\n"; s) }
 
 stack: 
-  { (print_string "stack1\n"; Stack []) }
-| n=nonemptystack { (print_string "stack2\n"; Stack n) }
+  { (print_string "stack1\n"; []) }
+| n=nonemptystack { (print_string "stack2\n"; n) }
 
 nonemptystack: 
   s = LETTRE { (print_string "nonemptystack1\n"; [s]) }
