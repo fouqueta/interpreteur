@@ -10,8 +10,9 @@ type initialstack = Initialstack of char
 
 type stack = char list
 
-type transitions = 
+type transitions =
   Transitions of (char * char * char * char * stack) list
+(* etat courant * lettre a consommer * haut pile * nouvel etat * ce que la pile devient a partir de l'ancien top*)
 
 type declarations =
   Declarations of inputsymbols * stacksymbols * states * initialstate * initialstack
@@ -19,7 +20,7 @@ type declarations =
 type automate = 
   Automate of declarations * transitions
 
-  
+(*   
 let rec as_string = function
   | Inputsymbols l -> "inupts symbols: " ^ parcoursListe l
   | Stacksymbols l -> "stack symbols: " ^ parcoursListe l
@@ -40,9 +41,9 @@ and parcoursListe l =
 and parcoursListeTrans l =
   match l with
   | [] -> ""
-  | t::q -> "(" ^  t ^  string "," ^ parcoursListeTrans q ^ ")"
+  | t::q -> "(" ^  t ^  string "," ^ parcoursListeTrans q ^ ")" *)
 
-(*)
+(*
  and parcoursListeTrans l =
   match l with
   | [] -> ""
