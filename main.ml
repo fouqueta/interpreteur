@@ -15,7 +15,7 @@ let parse = try parse_file () with Parser.Error -> fprintf stderr "Syntax error\
 type exec = {
     mutable curState: char;  (* l'etat courant *)
     mutable curStack: char list; (* la pile courante *)
-    mutable listTrans: (char * char * char * char * (char list)) list (* la liste des transitions *)
+    listTrans: (char * char * char * char * (char list)) list (* la liste des transitions *)
   };;
   
 
@@ -32,10 +32,10 @@ let init (a : automate) : exec =
 
 (* affichage du detail de l'execution *)
 let affichageExecution (e1 : char) (c : char) (e2 : char) (env : exec) =
-  printf "Passage de l'etat %c a l'etat %c\n" e1 e2;
+  printf "Passage de l'état %c à l'état %c\n" e1 e2;
   if c = ' ' then printf "Epsilon transition\n"
-  else printf "La lettre '%c' a ete consommee\n" c;
-  printf "Etat de la pile apres transition :";
+  else printf "La lettre '%c' a été consommée\n" c;
+  printf "Etat de la pile après transition :";
   if env.curStack = [] then printf " pile vide";
   let rec affichageStack s = 
     match s with
@@ -110,10 +110,3 @@ try
   done
 with Exit -> exit 0;;
 
-
-
-
-
-
-
-  
