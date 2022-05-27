@@ -6,64 +6,64 @@
 %token PROGRAM CASESTATEOF CASENEXTOF CASETOPOF PUSH CHANGE POP BEGIN END REJECT EOF
 %token<char> LETTRE
 
-%start<unit> input
+%start<Ast.automate> input
 
 %%
 
   
-input: c = automate EOF { (*((*print_string "input\n"; *)c)*) }
+input: c = automate EOF { c }
 
-automate: d=declarations p=program { (*((*print_string "automate\n"; *)Automate (d, p))*) }
+automate: d=declarations p=program { Automate (d, p) }
 
 declarations: i1=inputsymbols s1=stacksymbols s2=states i2=initialstate i3=initialstack 
-    { (*((*print_string "declarations\n"; *)Declarations (i1,s1,s2,i2,i3))*) }
+    { Declarations (i1,s1,s2,i2,i3) }
 
-inputsymbols: INPUTSYMBS s=suitelettres_nonvide { (*((*print_string "inputsymbols\n"; *)Inputsymbols s)*) }
+inputsymbols: INPUTSYMBS s=suitelettres_nonvide { Inputsymbols s }
 
-stacksymbols: STACKSYMBS s=suitelettres_nonvide { (*((*print_string "stacksymbols\n"; *)Stacksymbols s)*) }
+stacksymbols: STACKSYMBS s=suitelettres_nonvide { Stacksymbols s }
 
-states: STATES s=suitelettres_nonvide { (*((*print_string "states\n"; *)States s)*) }
+states: STATES s=suitelettres_nonvide { States s }
 
-initialstate: INITIALSTATE s=LETTRE { (*((*print_string "initialstate\n"; *)Initialstate s)*) } 
+initialstate: INITIALSTATE s=LETTRE { Initialstate s } 
  
-initialstack: INITIALSTACKSYMB s=LETTRE { (*((*print_string "initialstack\n"; *)Initialstack s)*) }
+initialstack: INITIALSTACKSYMB s=LETTRE { Initialstack s }
 
 suitelettres_nonvide: 
-  s = LETTRE { (*((*print_string "suitelettres_nonvide1\n"; *)[s])*) }
-| s = LETTRE COMMA l=suitelettres_nonvide { (*((*print_string "suitelettres_nonvide2\n"; *)s::l)*) } 
+  s = LETTRE { [s] }
+| s = LETTRE COMMA l=suitelettres_nonvide { s::l } 
 
-program: PROGRAM CASESTATEOF s=stateslist {  }
+program: PROGRAM CASESTATEOF s=stateslist { Program s }
 
 stateslist: 
-  {  }
-| s1=state s2=stateslist {}
+  { [] }
+| s1=state s2=stateslist { s1::s2 }
 
-state: s1=LETTRE COMMA distinction_cas { }
+state: s=LETTRE COLON d=distinction_cas { State (s,d) }
 
 distinction_cas:
-  distinction_cas_next {}
-| distinction_cas_top {}
+  d=distinction_cas_next { Statenext d }
+| d=distinction_cas_top { Statetop d }
 
-distinction_cas_next: BEGIN CASENEXTOF cases_next_of_list END {}
+distinction_cas_next: BEGIN CASENEXTOF c=cases_next_of_list END { c }
 
-distinction_cas_top: BEGIN CASETOPOF cases_top_of_list END {}
+distinction_cas_top: BEGIN CASETOPOF c=cases_top_of_list END { c }
 
 cases_next_of_list:
-  {}
-| case_next_of cases_next_of_list {}
+  { [] }
+| c=case_next_of l=cases_next_of_list { c::l }
 
-case_next_of: s1=LETTRE COMMA instr {}
+case_next_of: s=LETTRE COLON i=instr { (s, Casnext i) }
 
 cases_top_of_list: 
-  {}
-| s1=LETTRE COMMA case_top_of cases_top_of_list {}
+  { [] }
+| c=case_top_of l=cases_top_of_list { c::l }
 
 case_top_of: 
-  instr {}
-| distinction_cas_next {}
+  s=LETTRE COLON i=instr { Castopinstr (s,i) }
+| s=LETTRE COLON d=distinction_cas_next { Castopnext (s,d) }
 
 instr:
-  PUSH s1=LETTRE {}
-| CHANGE LETTRE {}
-| POP {}
-| REJECT {}
+  PUSH s=LETTRE { Push s }
+| CHANGE s=LETTRE { Change s }
+| POP { Pop }
+| REJECT { Reject }
