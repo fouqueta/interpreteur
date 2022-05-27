@@ -110,17 +110,25 @@ let rec checkAllTransitions (l : char) (s : state list) (env : exec) =
                                         checkAllTransitions l t env
 ;;
 
-(* let checkPop (l : castop list) (env : exec) =
-
+let rec checkPop (l : castop list) (etat : char) (env : exec) : bool =
+  match l with
+  |[] -> false
+  |(Castopinstr (hautPile,instruct))::t -> begin
+          if (List.hd env.curStack <> hautPile) then checkPop t etat env
+          else begin if (instruct = Pop) then (doPop env; affichageExecution ' ' etat etat env;true)
+                     else checkPop t etat env
+               end 
+          end
+  |(Castopnext (hautPile,actionNext))::t -> checkPop t etat env
 ;;
 
-let checkTransToEmptyStack (listr : state list) (env : exec) =
-  match listTr with
+let rec checkTransToEmptyStack (listr : state list) (env : exec) =
+  match listr with
   |[] -> eprintf "Erreur : pas de transition possible\nMot rejeté\n"; exit (1)
-  |(State (etat, Statenext l'))::t -> checkTransToEmptyStack t env
-  |(State (etat, Statetop l'))::t -> if (etat <> env.curState || not(checkPop l etat l' env)) then 
-                                        checkAllTransitions l t env
-;; *)
+  |(State (etat, Statenext l))::t -> checkTransToEmptyStack t env
+  |(State (etat, Statetop l))::t -> if (etat <> env.curState || not(checkPop l etat env)) then 
+                                        checkTransToEmptyStack t env
+;;
 
 (*  execute l'automate sur le mot, dit s'il est accepte ou non par la grammaire *)
 let etapeExec (mot : string) (env : exec) =
@@ -134,8 +142,8 @@ let etapeExec (mot : string) (env : exec) =
   done;
   printf "Fin du mot\n\n";
   while List.length env.curStack <> 0 do
-    checkAllTransitions ' ' env.listTrans env
-    (* checkTransToEmptyStack env.listTrans env *)
+    (* checkAllTransitions ' ' env.listTrans env *)
+    checkTransToEmptyStack env.listTrans env
   done;
   printf "Mot %s accepté !\n\n" mot
 ;;  
