@@ -16,12 +16,14 @@ PARTIES TRAITEES:
 
 COMPILATION/EXECUTION DU PROJET:
     Décompresser l'archive et se déplacer dans le dossier du projet, à la racine: cd gasp2
-    Tester phase 1 ou 2: Compiler le projet: make
-                         Exécuter (phase 1): ./parser ../exemples_phase1/fichier_test_que_l'on_veut_tester (exemple: ./parser exemples_phase1/palindrome)
-                         Exécuter (phase 2): ./parser ../exemples_phase2/palindrome
+    Tester phase 1/2: Compiler le projet: make
+                         Exécuter : ./parser exemples_phase1/nomfichier (exemple: ./parser exemples_phase1/palindrome)
+
     Tester phase 3: se déplacer dans phase3: cd phase3
                     Compiler: make
                     Exécuter: ./parser ../exemples_phase2/palindrome
+
+    make clean disponible pour les 2 dossiers
 
 
 REPARTITION DES TACHES:
@@ -31,4 +33,3 @@ REPARTITION DES TACHES:
         - print AST (optionnel): Julia
     Étape 2: Julia
     Étape 3: Aurélie
-
