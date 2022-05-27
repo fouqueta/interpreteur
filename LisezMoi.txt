@@ -11,13 +11,17 @@ TAN Julia (groupe 2 - n°étudiant: 21959968)
 PARTIES TRAITEES:
     - Partie 1: lexer, parser, AST, interpréteur
     - Partie 2: Vérification de la bonne formation de l'automate
-    - Partie 3: lexer, parser, AST, une partie de l'interpréteur
+    - Partie 3: lexer, parser, AST, interpréteur
 
 
 COMPILATION/EXECUTION DU PROJET:
-    Décompresser l'archive et se déplacer dans le dossier du projet: cd gasp2
-    Compiler le projet: make
-    Exécuter le projet: ./parser exemples_phase1/palindrome
+    Décompresser l'archive et se déplacer dans le dossier du projet, à la racine: cd gasp2
+    Tester phase 1 ou 2: Compiler le projet: make
+                         Exécuter (phase 1): ./parser ../exemples_phase1/fichier_test_que_l'on_veut_tester (exemple: ./parser exemples_phase1/palindrome)
+                         Exécuter (phase 2): ./parser ../exemples_phase2/palindrome
+    Tester phase 3: se déplacer dans phase3: cd phase3
+                    Compiler: make
+                    Exécuter: ./parser ../exemples_phase2/palindrome
 
 
 REPARTITION DES TACHES:
